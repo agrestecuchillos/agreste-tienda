@@ -1,0 +1,56 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "img/uploads"
+public_folder: "img/uploads"
+
+collections:
+  - name: "contenido"
+    label: "Contenido del sitio"
+    description: "Editá textos, WhatsApp y catálogo. Al publicar, el sitio se actualiza solo."
+    files:
+      - name: "general"
+        label: "Textos, contacto y catálogo"
+        file: "data/contenido.json"
+        fields:
+          - { name: "whatsapp", label: "WhatsApp (549 + numero)", widget: "string" }
+          - name: "textos"
+            label: "Textos de las paginas"
+            widget: "object"
+            fields:
+              - { name: "marca_sub", label: "Encabezado - subtitulo", widget: "string", required: false }
+              - { name: "gate_texto", label: "Aviso de edad - texto", widget: "string", required: false }
+              - { name: "footer_tagline", label: "Footer - descripcion", widget: "string", required: false }
+              - { name: "inicio_overline", label: "Inicio - linea superior", widget: "string", required: false }
+              - { name: "inicio_titulo", label: "Inicio - titulo principal", widget: "string", required: false }
+              - { name: "inicio_bajada", label: "Inicio - texto bajo el titulo", widget: "string", required: false }
+              - { name: "inicio_val1_t", label: "Inicio - valor 1 titulo", widget: "string", required: false }
+              - { name: "inicio_val1_p", label: "Inicio - valor 1 texto", widget: "string", required: false }
+              - { name: "inicio_val2_t", label: "Inicio - valor 2 titulo", widget: "string", required: false }
+              - { name: "inicio_val2_p", label: "Inicio - valor 2 texto", widget: "string", required: false }
+              - { name: "inicio_val3_t", label: "Inicio - valor 3 titulo", widget: "string", required: false }
+              - { name: "inicio_val3_p", label: "Inicio - valor 3 texto", widget: "string", required: false }
+              - { name: "inicio_dest_t", label: "Inicio - titulo destacados", widget: "string", required: false }
+              - { name: "inicio_taller_t", label: "Inicio - titulo seccion taller", widget: "string", required: false }
+              - { name: "inicio_taller_p", label: "Inicio - texto seccion taller", widget: "string", required: false }
+              - { name: "cat_titulo", label: "Catalogo - titulo", widget: "string", required: false }
+              - { name: "cat_bajada", label: "Catalogo - texto", widget: "string", required: false }
+              - { name: "taller_titulo", label: "El taller - titulo", widget: "string", required: false }
+              - { name: "taller_bajada", label: "El taller - texto", widget: "string", required: false }
+              - { name: "taller_serv_t", label: "El taller - titulo servicios", widget: "string", required: false }
+              - { name: "taller_cont_t", label: "El taller - titulo contacto", widget: "string", required: false }
+              - { name: "taller_cont_p", label: "El taller - texto contacto", widget: "string", required: false }
+          - name: "productos"
+            label: "Productos del catalogo"
+            widget: "list"
+            summary: "{{fields.nombre}}"
+            fields:
+              - { name: "nombre", label: "Nombre", widget: "string" }
+              - { name: "linea", label: "Linea / coleccion", widget: "string", required: false }
+              - { name: "detalle", label: "Detalle corto (materiales)", widget: "string", required: false }
+              - { name: "descripcion", label: "Descripcion larga", widget: "text", required: false }
+              - { name: "precio", label: "Precio en pesos", widget: "number", required: false }
+              - { name: "foto", label: "Foto", widget: "image", required: false }
+              - { name: "modalidad", label: "Modalidad (stock / bajo pedido)", widget: "string", required: false }
+              - { name: "destacado", label: "Mostrar en portada", widget: "boolean", required: false }

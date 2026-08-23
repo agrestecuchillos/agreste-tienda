@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agreste — Cuchillos criollos hechos a mano</title>
+  <meta name="description" content="Cuchillos criollos artesanales con vaina de cuero, hechos a mano en Villa Gesell, Argentina.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-pagina="inicio">
+
+  <!-- Verificación de edad (+18) -->
+  <div class="age-gate" id="ageGate">
+    <div class="age-gate-caja" id="gateCaja">
+      <p class="age-gate-marca">Agreste · Cuchillería artesanal</p>
+      <h2>Antes de ingresar</h2>
+      <p>Este sitio exhibe cuchillos artesanales destinados a personas adultas. Confirmá que sos mayor de edad para continuar.</p>
+      <div class="age-gate-acciones">
+        <button class="btn btn-primario" id="btnMayor">Soy mayor de 18</button>
+        <button class="btn btn-fantasma" id="btnMenor">Soy menor</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Encabezado -->
+  <header class="header">
+    <div class="contenedor header-inner">
+      <a href="#" class="marca">
+        <img src="img/logo.png" alt="Agreste" class="marca-logo">
+        <span class="marca-sub">Cuchillería artesanal</span>
+      </a>
+      <nav class="nav">
+  <a href="index.html">Inicio</a>
+  <a href="catalogo.html">Catálogo</a>
+  <a href="taller.html">El taller</a>
+  <a href="taller.html#contacto">Contacto</a>
+</nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Héroe principal -->
+    <section class="hero">
+      <div class="contenedor">
+        <p class="overline">Hecho a mano en Villa Gesell, Argentina</p>
+        <h1>Cuchillos criollos con alma de acero y madera</h1>
+        <p class="hero-bajada">Piezas únicas de acero inoxidable, mango de madera dura y vaina de cuero cosida a mano. Tradición gaucha para el asado, el campo y la colección.</p>
+        <div class="hero-acciones">
+          <a href="catalogo.html" class="btn btn-primario">Ver catálogo</a>
+          <a href="taller.html" class="btn btn-fantasma">Conocer el taller</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Propuesta de valor -->
+    <section class="valores">
+      <div class="contenedor valores-grid">
+        <div class="valor">
+          <h3>Hecho a mano</h3>
+          <p>Cada pieza se trabaja y termina de forma artesanal. No hay dos cuchillos iguales.</p>
+        </div>
+        <div class="valor">
+          <h3>Materiales nobles</h3>
+          <p>Acero inoxidable, maderas duras, alpaca y asta seleccionados para durar generaciones.</p>
+        </div>
+        <div class="valor">
+          <h3>Vaina de cuero</h3>
+          <p>Incluye vaina de cuero curtido vegetal, cosida a mano, lista para el cinturón.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Piezas destacadas (se harán dinámicas en el Paso 5) -->
+    <section class="destacados">
+      <div class="contenedor">
+        <h2>Piezas destacadas</h2>
+        <div class="cards" id="grillaProductos" data-modo="destacados"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- El taller -->
+    <section class="taller">
+      <div class="contenedor">
+        <p class="overline">El taller</p>
+        <h2>Tradición y oficio en cada detalle</h2>
+        <p>Detrás de cada cuchillo hay horas de trabajo: selección del acero, temple de la hoja, tallado del mango, pulido y costura de la vaina. Un oficio que se transmite y se perfecciona pieza tras pieza.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="footer">
+    <div class="contenedor footer-grid">
+      <div>
+        <p class="marca-nombre">Agreste</p>
+        <p>Cuchillería artesanal · Villa Gesell, Argentina.</p>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="legal.html#terminos">Términos y condiciones</a>
+        <a href="legal.html#privacidad">Política de privacidad</a>
+        <a href="legal.html#venta-responsable">Venta responsable +18</a>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <p>Villa Gesell, Buenos Aires, Argentina</p>
+        <p>WhatsApp: 2255 42-8651 · Instagram: @romejm2003</p>
+      </div>
+    </div>
+    <div class="contenedor footer-base">
+      <p>© <span id="anio"></span> Agreste. Venta exclusiva a mayores de 18 años.</p>
+      <p>Desarrollo web: Facundo Araujo</p>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script><script src="js/contenido.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
