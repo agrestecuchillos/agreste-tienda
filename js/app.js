@@ -328,7 +328,7 @@ Declaro que soy mayor de 18 años.`;
     btnEnviar.disabled = true;
     btnEnviar.innerHTML = '<span class="spinner" aria-hidden="true"></span>Enviando…';
 
-    sessionStorage.setItem('agreste_pedido', msg);
+    localStorage.setItem('agreste_pedido', msg);
     localStorage.removeItem('Agreste_carrito');
     actualizarContadorCarrito();
     setTimeout(function () { location.href = 'gracias.html'; }, 900);
@@ -436,7 +436,7 @@ function aplicarTextos() {
 
   if (pagina === 'gracias') {
     const btn = document.getElementById('btnReabrirWhats');
-    const msg = sessionStorage.getItem('agreste_pedido');
+    const msg = localStorage.getItem('agreste_pedido');
     if (btn && msg) btn.href = 'https://wa.me/' + WHATSAPP_VENDEDOR + '?text=' + encodeURIComponent(msg);
     else if (btn) btn.remove();
   }
