@@ -1,5 +1,3 @@
-locale: "es"
-logo_url: "https://agreste.netlify.app/img/logo.png"
 backend:
   name: git-gateway
   branch: main

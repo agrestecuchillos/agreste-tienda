@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /carrito.html
+Disallow: /checkout.html
+Disallow: /gracias.html
+
+Sitemap: https://agreste.netlify.app/sitemap.xml

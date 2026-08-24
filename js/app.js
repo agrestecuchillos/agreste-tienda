@@ -68,7 +68,7 @@ function fmtPrecio(n) {
 // ==== Motor de catálogo ====
 function tarjetaProducto(p) {
   const precio = p.precio ? fmtPrecio(p.precio) : "Precio a confirmar";
-    const foto = p.foto ? `<img src="${p.foto}" alt="${p.nombre}" style="object-position:${p.fotoPos || 'center'};transform:scale(${p.fotoZoom || 1})"><span class="card-badge">Foto de referencia</span>` : "Foto de la pieza";
+    const foto = p.foto ? `<img src="${p.foto}" alt="${p.nombre}" loading="lazy" decoding="async" style="object-position:${p.fotoPos || 'center'};transform:scale(${p.fotoZoom || 1})"><span class="card-badge">Foto de referencia</span>` : "Foto de la pieza";
 
   return `
     <article class="card">
@@ -105,7 +105,7 @@ function pintarFicha() {
   }
 
   const precio = p.precio ? fmtPrecio(p.precio) : 'Precio a confirmar';
-    const foto = p.foto ? `<img src="${p.foto}" alt="${p.nombre}" style="object-position:${p.fotoPos || 'center'};transform:scale(${p.fotoZoom || 1})">` : 'Foto de la pieza';
+    const foto = p.foto ? `<img src="${p.foto}" alt="${p.nombre}" loading="lazy" decoding="async" style="object-position:${p.fotoPos || 'center'};transform:scale(${p.fotoZoom || 1})">` : 'Foto de la pieza';
 
   cont.innerHTML = `
     <div class="ficha">
@@ -132,10 +132,21 @@ function pintarFicha() {
 
   document.getElementById('btnAgregar').addEventListener('click', () => {
     agregarAlCarrito(p.id);
-    const btn = document.getElementById('btnAgregar');
-    btn.textContent = 'Agregado ✓';
-    setTimeout(() => { btn.textContent = 'Agregar al carrito'; }, 1500);
+
+  // Datos estructurados de la pieza visible
+  document.querySelectorAll('script[data-ficha]').forEach(s => s.remove());
+  const ld = document.createElement('script');
+  ld.type = 'application/ld+json';
+  ld.setAttribute('data-ficha', '1');
+  ld.textContent = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    'name': p.nombre,
+    'description': p.descripcion,
+    'offers': { '@type': 'Offer', 'priceCurrency': 'ARS', 'price': p.precio || 0,
+      'availability': (p.modalidad || '').includes('Stock') ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder' }
   });
+  document.head.appendChild(ld);
 }
 
 // ==== Página del carrito ====
@@ -161,12 +172,12 @@ function pintarCarrito() {
           <p class="card-precio">${p.precio ? fmtPrecio(p.precio) : 'Precio a confirmar'}</p>
         </div>
         <div class="carrito-cant">
-          <button class="btn-cant" data-accion="menos">−</button>
-          <span>${item.cant}</span>
-          <button class="btn-cant" data-accion="mas">+</button>
+          <button class="btn-cant" data-accion="menos" aria-label="Disminuir cantidad de ${p.nombre}">−</button>
+          <span aria-live="polite">${item.cant}</span>
+          <button class="btn-cant" data-accion="mas" aria-label="Aumentar cantidad de ${p.nombre}">+</button>
         </div>
         <div class="carrito-sub">${p.precio ? fmtPrecio(p.precio * item.cant) : '—'}</div>
-        <button class="carrito-quitar" data-accion="quitar">Quitar</button>
+        <button class="carrito-quitar" data-accion="quitar" aria-label="Quitar ${p.nombre} del carrito">Quitar</button>
       </div>`;
   }).join('');
 
@@ -228,6 +239,7 @@ function pintarCheckout() {
     <h1 class="carrito-titulo">Finalizar pedido</h1>
     <div class="checkout-grid">
       <form id="formCheckout" class="form" novalidate>
+        <input type="text" id="fEmpresa" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label>Nombre y apellido *
           <input type="text" id="fNombre">
         </label>
@@ -253,7 +265,7 @@ function pintarCheckout() {
           <input type="checkbox" id="fEdad">
           <span>Declaro que soy mayor de 18 años y acepto la política de venta responsable.</span>
         </label>
-        <p class="form-error" id="formError"></p>
+        <p class="form-error" id="formError" aria-live="assertive"></p>
         <button class="btn btn-primario" type="submit">Enviar pedido por WhatsApp</button>
       </form>
       <aside class="carrito-resumen">
@@ -266,6 +278,8 @@ function pintarCheckout() {
 
   document.getElementById('formCheckout').addEventListener('submit', e => {
     e.preventDefault();
+
+    if (document.getElementById('fEmpresa').value) { location.href = 'gracias.html'; return; }
 
     const nombre = document.getElementById('fNombre').value.trim();
     const tel = document.getElementById('fTelefono').value.trim();
@@ -304,11 +318,16 @@ ${notas ? 'Notas: ' + notas : ''}
 
 Declaro que soy mayor de 18 años.`;
 
+    const btnEnviar = document.querySelector('#formCheckout button[type="submit"]');
+    btnEnviar.disabled = true;
+    btnEnviar.innerHTML = '<span class="spinner" aria-hidden="true"></span>Enviando…';
+
+    sessionStorage.setItem('agreste_pedido', msg);
     window.open('https://wa.me/' + WHATSAPP_VENDEDOR + '?text=' + encodeURIComponent(msg), '_blank');
 
-    localStorage.removeItem('Agreste_carrito');
+    localStorage.removeItem('pampeana_carrito');
     actualizarContadorCarrito();
-    cont.innerHTML = '<p class="aviso">¡Gracias por tu pedido! Se abrió WhatsApp con el resumen. El vendedor te confirmará total en pesos, envío y medios de pago. <a href="index.html">Volver al inicio</a>.</p>';
+    setTimeout(function () { location.href = 'gracias.html'; }, 900);
   });
 }
 
@@ -360,7 +379,7 @@ const TEXTOS_BASE = {
   inicio_val3_p:    { sel: '[data-pagina="inicio"] .valores-grid .valor:nth-child(3) p', etiqueta: 'Inicio · Valor 3 texto', def: 'Incluye vaina de cuero curtido vegetal, cosida a mano, lista para el cinturón.' },
   inicio_dest_t:    { sel: '[data-pagina="inicio"] .destacados h2', etiqueta: 'Inicio · Título destacados', def: 'Piezas destacadas' },
   inicio_taller_t:  { sel: '[data-pagina="inicio"] .taller h2', etiqueta: 'Inicio · Título sección taller', def: 'Tradición y oficio en cada detalle' },
-  inicio_taller_p:  { sel: '[data-pagina="inicio"] .taller p:not(.overline)', etiqueta: 'Inicio · Texto sección taller', def: 'Detrás de cada cuchillo hay horas de trabajo: selección del acero, temple de la hoja, tallado del mango, pulido y costura de la vaina. Un oficio que se transmite y se perfecciona pieza tras pieza.' },
+  inicio_taller_p:  { sel: '[data-pagina="inicio"] .taller p', etiqueta: 'Inicio · Texto sección taller', def: 'Detrás de cada cuchillo hay horas de trabajo: selección del acero, temple de la hoja, tallado del mango, pulido y costura de la vaina. Un oficio que se transmite y se perfecciona pieza tras pieza.' },
   cat_titulo:       { sel: '[data-pagina="catalogo"] .hero-chico h1', etiqueta: 'Catálogo · Título', def: 'Piezas disponibles' },
   cat_bajada:       { sel: '[data-pagina="catalogo"] .hero-bajada', etiqueta: 'Catálogo · Texto', def: 'Cada cuchillo es una pieza única, hecha a mano. Si buscás algo personalizado, también se trabajan piezas bajo pedido.' },
   taller_titulo:    { sel: '[data-pagina="taller"] .hero-chico h1', etiqueta: 'El taller · Título', def: 'Oficio, acero y cuero en Villa Gesell' },
@@ -380,3 +399,40 @@ function aplicarTextos() {
   }
 }
 // aplicarTextos() ahora se ejecuta después de cargar el contenido (ver abajo).
+// ==== Auditoría: UX, SEO técnico y accesibilidad ====
+(function () {
+  const pagina = document.body.dataset.pagina;
+
+  const main = document.querySelector('main');
+  if (main && !main.id) main.id = 'contenido';
+  if (!document.querySelector('.skip-link')) {
+    document.body.insertAdjacentHTML('afterbegin', '<a class="skip-link" href="#contenido">Saltar al contenido</a>');
+  }
+
+  if (pagina !== 'admin' && !document.querySelector('.cta-sticky')) {
+    document.body.insertAdjacentHTML('beforeend', '<a class="cta-sticky" href="catalogo.html">Ver catálogo de piezas</a>');
+  }
+
+  if (!localStorage.getItem('agreste_cookies')) {
+    document.body.insertAdjacentHTML('beforeend',
+      '<div class="cookie-bar" role="region" aria-label="Aviso de privacidad">' +
+      '<span>Usamos almacenamiento local para el carrito y la verificación de edad. Más info en <a href="legal.html#privacidad">Política de privacidad</a>.</span>' +
+      '<button class="btn btn-primario btn-chico" id="btnCookies">Entendido</button></div>');
+    document.getElementById('btnCookies').addEventListener('click', function () {
+      localStorage.setItem('agreste_cookies', 'ok');
+      document.querySelector('.cookie-bar').remove();
+    });
+  }
+
+  const nav = document.querySelector('.nav');
+  if (nav && !nav.getAttribute('aria-label')) nav.setAttribute('aria-label', 'Navegación principal');
+  const gateCaja = document.querySelector('.age-gate-caja');
+  if (gateCaja) { gateCaja.setAttribute('role', 'dialog'); gateCaja.setAttribute('aria-modal', 'true'); }
+
+  if (pagina === 'gracias') {
+    const btn = document.getElementById('btnReabrirWhats');
+    const msg = sessionStorage.getItem('agreste_pedido');
+    if (btn && msg) btn.href = 'https://wa.me/' + WHATSAPP_VENDEDOR + '?text=' + encodeURIComponent(msg);
+    else if (btn) btn.remove();
+  }
+})();

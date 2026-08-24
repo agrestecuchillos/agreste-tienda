@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de edición — Agreste</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a5622d'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23fffdf8' font-family='Georgia,serif'%3EA%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body data-pagina="admin">
+
+  <!-- Verificación de edad (+18) -->
+  <div class="age-gate" id="ageGate">
+    <div class="age-gate-caja" id="gateCaja">
+      <p class="age-gate-marca">Agreste · Cuchillería artesanal</p>
+      <h2>Antes de ingresar</h2>
+      <p>Este sitio exhibe cuchillos artesanales destinados a personas adultas. Confirmá que sos mayor de edad para continuar.</p>
+      <div class="age-gate-acciones">
+        <button class="btn btn-primario" id="btnMayor">Soy mayor de 18</button>
+        <button class="btn btn-fantasma" id="btnMenor">Soy menor</button>
+      </div>
+    </div>
+  </div>
+  <!-- Acceso administrador -->
+  <div class="age-gate" id="loginGate">
+    <div class="age-gate-caja">
+      <p class="age-gate-marca">Agreste · Administración</p>
+      <h2>Acceso administrador</h2>
+      <form id="loginForm" class="form" style="text-align:left">
+        <label>Usuario
+          <input type="text" id="loginUser">
+        </label>
+        <label>Contraseña
+          <input type="password" id="loginPass">
+        </label>
+        <p class="form-error" id="loginError"></p>
+        <button class="btn btn-primario" type="submit">Ingresar</button>
+      </form>
+    </div>
+  </div>
+  <header class="header">
+    <div class="contenedor header-inner">
+      <a href="index.html" class="marca">
+        <img src="img/logo.png" alt="Agreste" class="marca-logo">
+        <span class="marca-sub">Cuchillería artesanal</span>
+      </a>
+      <nav class="nav">
+        <a href="index.html">Ver tienda</a>
+        <a href="#" id="btnSalir">Salir</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="admin">
+      <div class="contenedor" id="panelContenido">
+        <h1>Panel de edición</h1>
+        <div class="admin-nota">
+          <strong>Cómo funciona:</strong> 1) Editá productos, textos o el WhatsApp. 2) Apretá "Guardar cambios": se descarga un archivo llamado <strong>contenido.js</strong>. 3) Reemplazalo dentro de la carpeta <strong>js/</strong> de la web. 4) Recargá el sitio con Ctrl + F5. Los campos de texto vacíos conservan el texto original.
+        </div>
+
+        <!-- Productos -->
+        <div class="admin-seccion">
+          <h2>Productos del catálogo</h2>
+          <div id="listaProductos"></div>
+          <button class="btn btn-primario" id="btnAgregarProd">Agregar producto</button>
+
+          <form class="admin-form oculto" id="formProducto">
+            <label class="admin-campo">Nombre del producto *
+              <input type="text" id="pNombre">
+            </label>
+            <label class="admin-campo">Línea / colección
+              <input type="text" id="pLinea">
+            </label>
+            <label class="admin-campo">Detalle corto (materiales)
+              <input type="text" id="pDetalle">
+            </label>
+            <label class="admin-campo">Descripción larga
+              <textarea id="pDesc" rows="3"></textarea>
+            </label>
+            <label class="admin-campo">Precio en pesos argentinos (vacío = "a confirmar")
+              <input type="number" id="pPrecio" min="0">
+            </label>
+            <label class="admin-campo">Modalidad (ej: Stock inmediato / Bajo pedido · 15 días)
+              <input type="text" id="pModalidad">
+            </label>
+            <label class="admin-campo" style="grid-template-columns:auto 1fr;align-items:center;text-transform:none">
+              <input type="checkbox" id="pDestacado" style="width:auto">
+              <span>Mostrar en destacados de la portada</span>
+            </label>
+            <label class="admin-campo">Foto del producto
+              <input type="file" id="pFoto" accept="image/*">
+              <span id="fotoInfo" style="text-transform:none;letter-spacing:normal"></span>
+            </label>
+            <div class="admin-acciones">
+              <button class="btn btn-primario" type="submit">Guardar producto</button>
+              <button class="btn btn-fantasma" type="button" id="btnCancelar">Cancelar</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Textos -->
+        <div class="admin-seccion">
+          <h2>Textos de las páginas</h2>
+          <p class="admin-detalle" style="margin-bottom:1rem">Editá cualquier texto: lo que ves en cada cuadro es lo que está mostrando la web.</p>
+          <div id="listaTextos" class="admin-textos"></div>
+        </div>
+
+        <!-- Contacto -->
+        <div class="admin-seccion">
+          <h2>Contacto</h2>
+          <label class="admin-campo">WhatsApp del taller (formato 549 + número, sin espacios)
+            <input type="text" id="fWhats">
+          </label>
+        </div>
+
+        <button class="btn btn-primario admin-guardar" id="btnGuardar">Guardar cambios y descargar contenido.js</button>
+        <p id="guardadoOk"></p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="contenedor footer-base">
+      <p>© <span id="anio"></span> Agreste. Venta exclusiva a mayores de 18 años.</p>
+      <p>Desarrollo web: Facundo Araujo</p>
+    </div>
+  </footer>
+  <script src="js/data.js"></script>
+  <script src="js/contenido.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/acceso.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
