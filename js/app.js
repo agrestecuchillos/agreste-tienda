@@ -1,7 +1,9 @@
 // ==== Verificación de edad (+18) ====
 const gate = document.getElementById('ageGate');
 
-if (localStorage.getItem('Agreste_edad') === 'ok') {
+if (!gate) {
+  // Páginas sin aviso de edad (gracias, 404): continuamos normal.
+} else if (localStorage.getItem('Agreste_edad') === 'ok') {
   gate.remove();
 } else {
   document.getElementById('btnMayor').addEventListener('click', () => {
@@ -327,8 +329,6 @@ Declaro que soy mayor de 18 años.`;
     btnEnviar.innerHTML = '<span class="spinner" aria-hidden="true"></span>Enviando…';
 
     sessionStorage.setItem('agreste_pedido', msg);
-    window.open('https://wa.me/' + WHATSAPP_VENDEDOR + '?text=' + encodeURIComponent(msg), '_blank');
-
     localStorage.removeItem('Agreste_carrito');
     actualizarContadorCarrito();
     setTimeout(function () { location.href = 'gracias.html'; }, 900);
