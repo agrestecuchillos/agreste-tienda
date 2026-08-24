@@ -132,6 +132,10 @@ function pintarFicha() {
 
   document.getElementById('btnAgregar').addEventListener('click', () => {
     agregarAlCarrito(p.id);
+    const btn = document.getElementById('btnAgregar');
+    btn.textContent = 'Agregado ✓';
+    setTimeout(() => { btn.textContent = 'Agregar al carrito'; }, 1500);
+  });
 
   // Datos estructurados de la pieza visible
   document.querySelectorAll('script[data-ficha]').forEach(s => s.remove());
@@ -301,7 +305,7 @@ function pintarCheckout() {
 
     const lineas = c.map(i => {
       const p = PRODUCTOS.find(x => x.id === i.id);
-      return `• ${p.nombre} x${i.cant} (${p.precio ? 'USD ' + (p.precio * i.cant) : 'precio a confirmar'})`;
+      return `• ${p.nombre} x${i.cant} (${p.precio ? fmtPrecio(p.precio * i.cant) : 'precio a confirmar'})`;
     });
 
     const msg =
@@ -325,7 +329,7 @@ Declaro que soy mayor de 18 años.`;
     sessionStorage.setItem('agreste_pedido', msg);
     window.open('https://wa.me/' + WHATSAPP_VENDEDOR + '?text=' + encodeURIComponent(msg), '_blank');
 
-    localStorage.removeItem('pampeana_carrito');
+    localStorage.removeItem('Agreste_carrito');
     actualizarContadorCarrito();
     setTimeout(function () { location.href = 'gracias.html'; }, 900);
   });
