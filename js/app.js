@@ -285,7 +285,8 @@ function pintarCheckout() {
   document.getElementById('formCheckout').addEventListener('submit', e => {
     e.preventDefault();
 
-    if (document.getElementById('fEmpresa').value) { location.href = 'gracias.html'; return; }
+    // Anti-spam desactivado: el autocompletado del navegador llenaba el campo trampa
+    // y bloqueaba pedidos reales. La confirmación humana por WhatsApp es el filtro.
 
     const nombre = document.getElementById('fNombre').value.trim();
     const tel = document.getElementById('fTelefono').value.trim();
