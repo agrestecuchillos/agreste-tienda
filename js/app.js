@@ -70,7 +70,7 @@ function fmtPrecio(n) {
 // ==== Motor de catálogo ====
 function tarjetaProducto(p) {
   const precio = p.precio ? fmtPrecio(p.precio) : "Precio a confirmar";
-    const foto = p.foto ? `<img src="${p.foto}" alt="${p.nombre}" loading="lazy" decoding="async" style="object-position:${p.fotoPos || 'center'};transform:scale(${p.fotoZoom || 1})"><span class="card-badge">Foto de referencia</span>` : "Foto de la pieza";
+    const foto = p.foto ? `<img src="${p.foto}" alt="${p.nombre}" loading="lazy" decoding="async">` : "Foto de la pieza";
 
   return `
     <article class="card">
@@ -107,7 +107,7 @@ function pintarFicha() {
   }
 
   const precio = p.precio ? fmtPrecio(p.precio) : 'Precio a confirmar';
-    const foto = p.foto ? `<img src="${p.foto}" alt="${p.nombre}" loading="lazy" decoding="async" style="object-position:${p.fotoPos || 'center'};transform:scale(${p.fotoZoom || 1})">` : 'Foto de la pieza';
+    const foto = p.foto ? `<img src="${p.foto}" alt="${p.nombre}" loading="lazy" decoding="async">` : 'Foto de la pieza';
 
   cont.innerHTML = `
     <div class="ficha">
