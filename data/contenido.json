@@ -26,7 +26,7 @@
   },
   "productos": [
     {
-      "foto": "img/cuchillo.jpg",
+      "foto": "https://www.deliargentina.com/image/catalog/product/barbacoas/cuchillo-criollo-argentino-hueso-madera/cuchillo-criollo-argentino-hueso-madera.png",
       "precio": 48000,
       "destacado": true,
       "nombre": "Criollo Clásico",
@@ -39,7 +39,7 @@
       "id": 1
     },
     {
-      "foto": "img/cuchillo.jpg",
+      "foto": "https://acdn-us.mitiendanube.com/stores/004/156/900/products/17411246031936856845_1500x1500-60365209740447eb2f17458503690237-1024-1024.webp",
       "precio": 52000,
       "destacado": true,
       "nombre": "Criollo de Campo",
